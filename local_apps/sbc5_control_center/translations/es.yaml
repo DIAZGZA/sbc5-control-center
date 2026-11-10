@@ -1,0 +1,225 @@
+configuration:
+  custom_curve_1_name:
+    name: 01 · PROFILE — Nombre
+    description: Nombre del perfil personalizado, por ejemplo, Equilibrado.
+  custom_target_temp_c:
+    name: 01 · PROFILE — Temperatura objetivo
+    description: 'Temperatura que debe mantener el perfil personalizado. Punto de partida recomendado: 49–50°C.'
+  cooling_control_mode:
+    name: 01 · PROFILE — Modo de control
+    description: 'Automático: la aplicación controla la refrigeración. Híbrido: base manual más corrección limitada. Manual: curva fija sin
+      Adaptive PWM.'
+  cooling_auto_style:
+    name: 02 · AUTOMATIC — Características
+    description: Silencioso, Equilibrado o Rendimiento. Solo se utiliza en el modo Automático.
+  hybrid_correction_limit_percent:
+    name: 03 · HYBRID — Rango de corrección ±%
+    description: Corrección máxima de Adaptive PWM en torno a la curva manual. Recomendado: ±10%.
+  custom_min_pwm_percent:
+    name: 03/04 · HYBRID / MANUAL — PWM mínimo
+    description: Límite inferior de la curva base manual. Solo se utiliza en los modos Híbrido o Manual.
+  custom_target_pwm_percent:
+    name: 03/04 · HYBRID / MANUAL — PWM a la temperatura objetivo
+    description: PWM base a la temperatura objetivo para los modos Híbrido y Manual.
+  custom_max_pwm_percent:
+    name: 03/04 · HYBRID / MANUAL — PWM máximo
+    description: Límite superior de la curva base manual. El 100% conserva toda la capacidad de refrigeración de reserva.
+  manual_hysteresis_c:
+    name: 04 · MANUAL — Histéresis
+    description: Histéresis única para el modo Manual. Recomendado: 1.0°C.
+  section_ai_cooling_enabled:
+    name: 05 · AI COOLING (VISTA PREVIA) — Activar sección
+    description: Activa el aprendizaje local de Active Cooler. El modelo funciona sin conexión y nunca elude las medidas de seguridad de Adaptive PWM.
+  ai_cooling_mode:
+    name: 05 · AI COOLING — Modo
+    description: El aprendizaje solo observa. Assist puede ajustar ligeramente Adaptive PWM cuando se alcanza un nivel de confianza suficiente.
+  ai_cooling_assist_limit_percent:
+    name: 05 · AI COOLING — Límite de Assist ±%
+    description: Influencia máxima de AI Assist en torno a la decisión del controlador clásico. Rango de la versión preliminar: 1–10%; recomendado: 5%.
+  ai_cooling_min_samples:
+    name: 05 · AI COOLING — Muestras mínimas
+    description: Muestras necesarias en un intervalo de carga de trabajo antes de que AI Assist pueda actuar. Recomendado: 30.
+  restart_policy:
+    name: 10 · SAFETY — Política de reinicio
+    description: 'Controla el comportamiento de Restart Manager. Valores permitidos: ask o notify_only. Valor predeterminado: ask. “ask” permite reiniciar Home Assistant desde la interfaz solo tras la confirmación explícita del usuario. “notify_only” informa de la acción necesaria e impide los reinicios iniciados por la aplicación. La aplicación nunca reinicia Home Assistant automáticamente sin que el usuario realice una acción.'
+  pre_restart_config_check:
+    name: 10 · SAFETY — Comprobar configuración antes de reiniciar
+    description: 'Cuando está activado, Control Center realiza una comprobación adicional de la configuración de Supervisor antes de delegar el reinicio en la acción nativa homeassistant.restart. Home Assistant también valida siempre la configuración y cancela el reinicio si la validación falla. Valor predeterminado: activado.'
+  restart_notice_on_start:
+    name: 10 · SAFETY — Notificación de reinicio
+    description: 'Cuando está activado, la aplicación crea una notificación persistente de Home Assistant si se requiere reiniciar Home Assistant o todo el host. El estado también se publica siempre en sensor.sbc5_restart_required. Valor predeterminado: activado.'
+  post_update_restart_prompt:
+    name: 10 · SAFETY — Reinicio tras la actualización
+    description: 'Cuando está activado, Control Center recuerda la versión de la aplicación que se estaba ejecutando antes de una actualización y comprueba los metadatos de la nueva versión cuando esta se inicia. Si la versión requiere reiniciar Home Assistant o reiniciar por completo el SBC5, Restart Manager muestra automáticamente la acción necesaria y envía una notificación interactiva cuando están configuradas las notificaciones de Companion App. El reinicio solo se realiza tras la confirmación explícita del usuario. Valores permitidos: enabled/disabled. Valor predeterminado: enabled.'
+  native_restart_repair:
+    name: 10 · SAFETY — Reparación del problema
+    description: 'Controla únicamente el problema nativo de Home Assistant Repairs “Reinicio pendiente”. La integración sbc5_fan_manager_bridge, la telemetría, las entidades de seguridad y los sensores nativos permanecen activos independientemente de esta opción. Cuando está activada, el usuario puede confirmar el reinicio de Home Assistant o el reinicio completo del SBC5 desde Repair Flow. Valor predeterminado: activado.'
+  section_notifications_enabled:
+    name: 11 · NOTIFICATIONS — Activar sección
+    description: Activa los ajustes de notificación que se muestran a continuación.
+  actionable_mobile_notifications:
+    name: 11 · NOTIFICATIONS — Acciones de Companion
+    description: 'Cuando está activado, Control Center envía una notificación adicional de Home Assistant Companion con un botón de acción “Reiniciar Home Assistant” o “Reiniciar SBC5”. Al pulsarlo, se considera que el usuario ha dado su aprobación explícita. Las notificaciones persistentes internas de Home Assistant no admiten botones de acción personalizados. Valor predeterminado: activado.'
+  mobile_notify_service:
+    name: 11 · NOTIFICATIONS — Servicio de notificación
+    description: 'El valor “auto” selecciona automáticamente notify.mobile_app_* cuando se detecta exactamente un dispositivo de Companion App. Si hay varios dispositivos, introduce el nombre del servicio, por ejemplo, mobile_app_xiaomi_15_ultra o notify.mobile_app_xiaomi_15_ultra. Valor predeterminado: auto.'
+  section_updates_enabled:
+    name: 12 · UPDATES — Activar sección
+    description: Activa la comprobación de actualizaciones y los ajustes de paquetes locales que aparecen a continuación.
+  update_check_enabled:
+    name: 12 · UPDATES — Comprobación automática
+    description: 'Cuando está activada, la aplicación comprueba periódicamente si hay disponible una versión más reciente de SBC5 Control Center. Los paquetes ZIP locales de /config/sbc5_control_center_updates tienen prioridad en las instalaciones locales. Los metadatos de Supervisor Store se leen sin forzar la operación costosa /store/reload; también se puede utilizar un manifiesto remoto si está configurado. Valor predeterminado: activado.'
+  update_check_interval_hours:
+    name: 12 · UPDATES — Intervalo de comprobación
+    description: 'Frecuencia con la que SBC5 Control Center comprueba si hay una versión más reciente de la aplicación. Rango: 1–24 horas. Valor predeterminado: 6 horas.'
+  update_notify:
+    name: 12 · UPDATES — Notificación de nueva versión
+    description: 'Cuando está activado, Control Center crea una notificación al detectar una versión más reciente de la aplicación. La notificación incluye las versiones instalada y más reciente y, si está disponible, una acción de Companion App que enlaza con la página de la versión. Las actualizaciones nunca se instalan automáticamente. Valor predeterminado: activado.'
+  app_update_manifest_url:
+    name: 12 · UPDATES — Manifiesto remoto
+    description: URL HTTP/HTTPS opcional de un archivo JSON que describe la versión más reciente de SBC5 Control Center. Déjala vacía si la aplicación está instalada desde un repositorio de Home Assistant, ya que se utilizan de forma nativa los metadatos de Supervisor Store. En una instalación local, establece esta URL para que las comprobaciones automáticas puedan detectar nuevas versiones. Se permite dejar el valor vacío.
+  local_package_updates_enabled:
+    name: 12 · UPDATES — Paquetes ZIP locales
+    description: 'Cuando está activado, Control Center busca automáticamente paquetes ZIP más recientes de SBC5 Control Center en /config/sbc5_control_center_updates de Home Assistant. El paquete debe contener update-manifest.json. Detectar un paquete no lo instala sin la confirmación explícita del usuario. Valor predeterminado: activado.'
+  local_package_scan_interval_minutes:
+    name: 12 · UPDATES — Intervalo de búsqueda de ZIP
+    description: 'Frecuencia con la que Control Center busca en /config/sbc5_control_center_updates. Rango: 1–60 minutos. Valor predeterminado: 2 minutos.
+      También se puede iniciar una búsqueda manualmente con “Comprobar versión ahora”.'
+  local_package_keep_processed:
+    name: 12 · UPDATES — Archivar ZIP instalados
+    description: 'Cuando está activado, los paquetes instalados correctamente se trasladan a la subcarpeta processed en lugar de eliminarse.
+      Esto facilita la reversión y la auditoría de las actualizaciones. Valor predeterminado: activado.'
+  local_package_cleanup_enabled:
+    name: Limpieza automática de paquetes
+    description: Elimina los paquetes ZIP antiguos que superan el límite de conservación en processed/ y failed/. Las copias de seguridad de la configuración y de Lovelace no se modifican.
+  local_package_processed_retention:
+    name: Conservación de paquetes procesados
+    description: Número de los ZIP procesados correctamente más recientes que se deben conservar. Valor predeterminado: 2.
+  local_package_failed_retention:
+    name: Conservación de paquetes fallidos
+    description: Número de los ZIP fallidos más recientes que se deben conservar. Valor predeterminado: 2.
+  section_telemetry_enabled:
+    name: 13 · TELEMETRY — Activar sección
+    description: Activa los ajustes de telemetría ampliada que aparecen a continuación.
+  multicore_telemetry_enabled:
+    name: 13 · TELEMETRY — Procesamiento multinúcleo
+    description: 'Ejecuta en paralelo recopiladores de diagnóstico independientes y más exigentes para que Linux pueda distribuirlos entre los núcleos de CPU disponibles de Raspberry Pi 5. Valor predeterminado: activado.'
+  multicore_workers:
+    name: 13 · TELEMETRY — Número de procesos de trabajo
+    description: 'auto utiliza hasta cuatro núcleos de CPU disponibles. Establece un valor de 1–4 para limitar el grupo de procesos; 1 fuerza la recopilación secuencial. Valor predeterminado: auto.'
+  config_txt_manager:
+    name: 20 · CONFIG.TXT — Administrador
+    description: Gestiona directamente los ajustes de config.txt de Raspberry Pi desde la pestaña Configuration de la aplicación. 'auto' significa que el parámetro no se gestiona.
+    fields:
+      enabled:
+        name: Activar la gestión de config.txt
+        description: Desactivado de forma predeterminada para que las actualizaciones sean seguras. Actívalo para que las opciones siguientes controlen sbc5cc-managed.txt.
+      sync_interval_seconds:
+        name: Intervalo de sincronización
+        description: Se puede configurar entre 2 y 60 segundos; el valor predeterminado es 30. El mínimo del watchdog en tiempo de ejecución es 30 segundos; los cambios guardados en la interfaz se aplican de inmediato.
+      advanced_mode:
+        name: Modo avanzado
+        description: Permite parámetros desconocidos y omite determinados rangos numéricos de protección; las comprobaciones de sintaxis siguen activas.
+  section_cpu_enabled:
+    name: 21 · CONFIG.TXT — Activar CPU / OC
+    description: Activa los ajustes de CPU/OC en el grupo inmediatamente inferior.
+  config_cpu:
+    name: 21 · CONFIG.TXT — CPU / OC / térmica
+    description: Ajustes de CPU. auto = sin entrada gestionada. Se requiere reiniciar por completo Raspberry Pi.
+  section_gpu_enabled:
+    name: 22 · CONFIG.TXT — Activar GPU
+    description: Activa los ajustes de GPU/V3D/ISP que aparecen a continuación.
+  config_gpu_profile:
+    name: 22 · GPU / V3D / ISP — Perfil
+    description: 'factory = valores predeterminados del firmware; eco = 850/850/900; equilibrado = 950/950/1000; rendimiento = 1000/1000/1100; experimental = 1100/1100/1200; avanzado = manual. Orden: MHz de core / ISP / V3D.'
+  config_gpu:
+    name: 22 · CONFIG.TXT — GPU / V3D / ISP
+    description: Ajustes de frecuencia de GPU. auto = sin entrada gestionada.
+  section_power_usb_enabled:
+    name: 23 · CONFIG.TXT — Activar alimentación / USB
+    description: Activa los ajustes de alimentación y USB que aparecen a continuación.
+  config_power_usb:
+    name: 23 · CONFIG.TXT — Alimentación / USB
+    description: Ajustes de alimentación y límite de corriente USB.
+  section_pcie_rp1_enabled:
+    name: 24 · CONFIG.TXT — Activar PCIe / RP1
+    description: Activa los ajustes de PCIe/RP1 que aparecen a continuación.
+  config_pcie_rp1:
+    name: 24 · CONFIG.TXT — PCIe / RP1
+    description: Ajustes de PCIe/RP1 para Raspberry Pi 5.
+  section_boot_kernel_enabled:
+    name: 25 · CONFIG.TXT — Activar arranque / kernel
+    description: Activa los ajustes de arranque y kernel que aparecen a continuación. Utilízalo con precaución.
+  config_boot_kernel:
+    name: 25 · CONFIG.TXT — Arranque / kernel
+    description: Ajustes de arranque; los valores incorrectos pueden impedir el arranque.
+  section_hardware_enabled:
+    name: 26 · CONFIG.TXT — Activar detección de hardware
+    description: Activa los ajustes de detección automática de hardware que aparecen a continuación.
+  config_hardware:
+    name: 26 · CONFIG.TXT — Detección de hardware
+    description: Detección automática de dispositivos CSI/DSI.
+  section_uart_debug_enabled:
+    name: 27 · CONFIG.TXT — Activar UART / depuración
+    description: Activa los ajustes de UART/depuración que aparecen a continuación.
+  config_uart_debug:
+    name: 27 · CONFIG.TXT — UART / depuración
+    description: Ajustes de UART y depuración durante el arranque inicial.
+  section_video_enabled:
+    name: 28 · CONFIG.TXT — Activar vídeo / KMS
+    description: Activa los ajustes de vídeo/KMS que aparecen a continuación.
+  config_video:
+    name: 28 · CONFIG.TXT — Vídeo / KMS
+    description: Ajustes de vídeo y búfer de fotogramas.
+  section_device_tree_enabled:
+    name: 29 · CONFIG.TXT — Activar Device Tree
+    description: Activa los ajustes de Device Tree que aparecen a continuación.
+  config_device_tree:
+    name: 29 · CONFIG.TXT — Device Tree
+    description: Ruta base de DT y de superposiciones. Utiliza parámetros personalizados para dtoverlay/dtparam.
+  section_compatibility_enabled:
+    name: 30 · CONFIG.TXT — Activar compatibilidad / legado
+    description: Activa los ajustes de compatibilidad que aparecen a continuación.
+  config_compatibility:
+    name: 30 · CONFIG.TXT — Compatibilidad / legado
+    description: Opciones de compatibilidad; normalmente, déjalas en auto para Pi 5.
+  section_custom_parameters_enabled:
+    name: 31 · CONFIG.TXT — Activar parámetros personalizados
+    description: Activa las entradas adicionales de config.txt que aparecen a continuación.
+  config_custom_parameters:
+    name: 31 · CONFIG.TXT — Parámetros personalizados
+    description: Entradas arbitrarias de config.txt. Los parámetros desconocidos requieren el modo avanzado.
+    fields:
+      section:
+        name: Sección
+        description: Por ejemplo, all o pi5, sin corchetes.
+      key:
+        name: Parámetro
+        description: Por ejemplo, dtoverlay, dtparam o include.
+      value:
+        name: Valor
+        description: Valor del parámetro; el rango válido depende del parámetro o de la superposición.
+  custom_hysteresis_dense_c:
+    name: 90 · EXPERT — Histéresis base cerca del objetivo
+    description: Histéresis avanzada de la curva base. Normalmente, déjala sin cambios.
+  custom_hysteresis_outer_c:
+    name: 90 · EXPERT — Histéresis base externa
+    description: Histéresis externa avanzada. Normalmente, déjala sin cambios.
+  apply_custom_on_start:
+    name: 90 · EXPERT — Preparar perfil personalizado al iniciar
+    description: Opción de compatibilidad/diagnóstico. Normalmente, déjala desactivada.
+  adaptive_pwm_enabled:
+    name: 90 · EXPERT — Adaptive PWM heredado
+    description: Campo de compatibilidad. El modo de control activo gestiona Adaptive automáticamente.
+  section_adaptive_advanced_enabled:
+    name: 90 · EXPERT — Activar ajustes avanzados de Adaptive PWM
+    description: Activa los ajustes manuales de banda muerta, intervalo y confirmación de reducción. Desactivado = valores predeterminados automáticos.
+  adaptive_pwm_deadband_c:
+    name: 02 · ADAPTIVE PWM — Banda muerta
+    description: Banda técnica sin ajustes alrededor de la temperatura objetivo. Valor predeterminado: 0.75°C.
+  adaptive_pwm_interval_seconds:
+    name: 02 · ADAPTIVE PWM — Intervalo de corrección
+    description: Intervalo de corrección de Adaptive. Valor predeterminado: 10 s.
+  adaptive_pwm_down_confirm_cycles:
+    name: 02 · ADAPTIVE PWM — Confirmación de reducción
+    description: Confirmaciones necesarias antes de reducir el PWM. Valor predeterminado: 2.
