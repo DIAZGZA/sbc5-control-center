@@ -1,0 +1,34 @@
+{
+  "title": "Centro de control SBC5",
+  "issues": {
+    "restart_required": {
+      "title": "Reinicio pendiente — Centro de control SBC5",
+      "short_title": "Reinicio pendiente",
+      "fix_flow": {
+        "step": {
+          "init": {
+            "title": "Realizar el reinicio necesario — Centro de control SBC5",
+            "description": "{reason}\n\nReinicio necesario: **{target}**. El reinicio solo se realizará tras la confirmación.",
+            "data": {
+              "confirm": "Reiniciar ahora"
+            }
+          }
+        },
+        "error": {
+          "confirm_required": "Confirme el reinicio para continuar."
+        }
+      }
+    }
+  },
+  "config": {
+    "step": {
+      "user": {
+        "title": "Añadir Centro de control SBC5",
+        "description": "Añada la integración local de Centro de control SBC5 a Home Assistant."
+      }
+    },
+    "abort": {
+      "already_configured": "Centro de control SBC5 ya está configurado."
+    }
+  }
+}
